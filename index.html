@@ -7,6 +7,7 @@
     <title>Website Title</title>
     <!-- Link to CSS stylesheet -->
     <link rel="stylesheet" href="styles/styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
     <!-- Header Section -->
@@ -14,9 +15,9 @@
         <h1>Welcome to Our Project Website</h1>
         <nav>
             <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#graphs">Graphs</a></li>
-                <li><a href="#about">About</a></li>
+                <li><a href="#home" onclick="navigateTo('home')">Home Page</a></li>
+                <li><a href="#graphs" onclick="navigateTo('graphs')">Graphs</a></li>
+                <li><a href="#about" onclick="navigateTo('about')">About Us</a></li>
             </ul>
         </nav>
     </header>
@@ -27,12 +28,28 @@
             <p>Welcome to the project! This website will showcase various visualizations and graphs that we will add later.</p>
         </section>
 
-        <section id="graphs">
+        <section id="graphs" class="content-section" style="display: none;">
             <h2>Data Visualizations</h2>
             <p>Here, we will display interactive graphs related to our project data.</p>
-            <div id="graph-container">
+            <div id="dropdown">
                 <!-- Graphs will be inserted here using JavaScript -->
+                <label for="data-select">Select data group:</label>
+                <select id="data-select" onchange="updateGraph()">
+                    <option value="group1">MR & DPT4</option>
+                    <option value="group2">JE Dose 1 & 2</option>
+                    <option value="group3">JE Dose 3</option>
+                    <option value="group4">Mild & Severe Reactions</option>
+                </select>
             </div>
+            <div id="graph-container">
+                <div id="vaccination-chart" class="graph-section"></div>
+                <!-- <div id="other-graph1" class="graph-section" style="display: none;"></div> -->
+            </div>
+
+            <section id="about" class="content-section" style="display: none;">
+                <h2>About Us</h2>
+                <p>Group 2 bla bla bla </p>
+            </section>
         </section>
     </main>
 
@@ -40,8 +57,8 @@
     <footer>
         <p>&copy; 2024 Project Team. All Rights Reserved.</p>
     </footer>
-
     <!-- Link to JavaScript file -->
+    <script src="scripts/vaccinationChart.js"></script>
     <script src="scripts/main.js"></script>
 </body>
 </html>
