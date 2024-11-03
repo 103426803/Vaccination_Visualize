@@ -38,7 +38,7 @@ function drawVaccinationChart(group) {
         // Filter and process data based on group
         let keys;
         if (group === "MR_DPT4") {
-            keys = ["subject_MR_DPT4", "Vacc_MR", "Vacc_DPT4"];
+            keys = ["Subjects_MR_DPT4", "Vacc_MR", "Vacc_DPT4"];
         } else if (group === "JE_1_2") {
             keys = ["Subjects_JE_1_2", "Vacc_Dose1", "Vacc_Dose2"];
         } else if (group === "JE_3") {
