@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OECD Grouped Bar Charts (2018-2023)</title>
+    <script src="https://cdn.plot.ly/plotly-2.25.0.min.js"></script>
+</head>
+<body>
+    <h1>OECD Grouped Bar Charts (2018-2023)</h1>
+
+    <!-- First Chart -->
+    <div id="chart1" style="width: 100%; height: 800px; margin-bottom: 50px;"></div>
+
+    <!-- Second Chart -->
+    <div id="chart2" style="width: 100%; height: 800px;"></div>
+
+    <script>
+        // Data from the first HTML file (index.html)
+        const countries1 = [
+            "Australia", "Austria", "Belgium", "Canada", "Chile", "Colombia", "Costa Rica",
+            "Czechia", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece",
+            "Hungary", "Iceland", "Ireland", "Israel", "Italy", "Japan", "Korea", "Latvia",
+            "Lithuania", "Luxembourg", "Mexico", "Netherlands", "New Zealand", "Norway",
+            "Poland", "Portugal", "Slovak Republic", "Slovenia", "Spain", "Sweden",
+            "Switzerland", "Turkiye", "United Kingdom", "United States", "Argentina",
+            "Brazil", "Bulgaria", "China (People Republic of)", "Croatia", "India",
+            "Indonesia", "Peru", "Romania", "South Africa", "Ukraine"
+        ];
+
+        const years1 = ["2018", "2019", "2020", "2021", "2022", "2023"];
+        const values1 = [
+            [3.1, 3.3, 3.2, 3.3, 3.2, null], [2.7, 2.9, 3.1, 2.7, 2.4, null],
+            [3.8, 3.7, 3.3, 2.9, null, null], [4.7, 4.4, 4.5, 4.3, 4.7, null],
+            [6.6, 6.5, 5.6, 5.8, 5.9, null], [17.3, 17.0, 16.8, 16.5, null, null],
+            [8.4, 8.2, 7.9, 8.7, 9.6, null], [2.6, 2.6, 2.3, 2.2, 2.3, null],
+            [3.0, 2.1, 2.4, 2.4, null, null], [1.6, 1.6, 1.4, 2.2, 2.3, null],
+            [2.2, 2.0, 2.0, 1.6, 2.0, null], [3.8, 3.8, 3.6, 3.7, 3.9, null],
+            [3.2, 3.2, 3.1, 3.0, 3.2, null], [3.5, 3.7, 3.2, 3.5, 3.1, null],
+            [3.3, 3.6, 3.4, 3.3, 3.6, 3.1], [1.7, 1.1, 2.9, 3.3, null, null],
+            [2.9, 2.8, 3.1, 3.3, 3.3, null], [3.0, 3.0, 2.4, 2.8, 2.8, null],
+            [2.8, 2.4, 2.4, 2.3, null, null], [1.9, 1.9, 1.8, 1.7, 1.8, null],
+            [2.8, 2.7, 2.5, 2.4, null, null], [3.2, 3.4, 3.5, 2.7, 2.4, null],
+            [3.4, 3.3, 2.8, 3.1, 3.0, null], [4.3, 4.7, 4.5, 3.1, null, null],
+            [12.9, 13.1, 12.3, 12.7, null, null], [3.5, 3.6, 3.8, 3.3, null, null],
+            [4.3, null, null, null, null, null], [2.3, 2.0, 1.7, 1.9, 1.9, null],
+            [3.8, 3.8, 3.6, 3.9, 3.8, null], [3.3, 2.8, 2.4, 2.4, 2.6, 2.5],
+            [5.0, 5.1, 5.1, 4.9, 5.4, null], [1.7, 2.1, 2.2, 1.8, 2.5, null],
+            [2.7, 2.6, 2.6, 2.5, 2.6, null], [2.0, 2.1, 2.4, 1.8, null, null],
+            [3.3, 3.3, 3.6, 3.1, 3.8, 3.2], [9.2, 9.0, 8.5, 9.0, 9.1, null],
+            [3.9, 4.0, 3.8, 4.0, null, null], [5.7, 5.6, 5.4, null, null, null],
+            [8.4, 7.6, 6.8, 6.1, null, null], [13.1, 13.3, 12.2, 12.5, null, null],
+            [5.8, 5.6, 5.1, 5.6, null, null], [6.4, 5.9, 5.5, 5.1, null, null],
+            [4.2, 4.0, 4.0, 3.8, null, null], [29.8, 28.3, 26.8, 25.5, null, null],
+            [20.8, 20.1, 19.5, 18.9, null, null], [11.9, 11.6, 11.3, 11.0, null, null],
+            [5.8, 5.5, 5.3, 5.2, 5.7, null], [27.8, 27.3, 26.9, 26.4, null, null],
+            [7.4, 7.3, 7.1, 7.0, null, null]
+        ];
+
+        const traces1 = years1.map((year, index) => ({
+            x: countries1,
+            y: values1.map(row => row[index]),
+            name: year,
+            type: 'bar'
+        }));
+
+        const layout1 = {
+            title: 'OECD Grouped Bar Chart No Threshold (2018-2023)',
+            barmode: 'group',
+            xaxis: { title: 'Countries', tickangle: -45 },
+            yaxis: { title: 'Values' }
+        };
+
+        Plotly.newPlot('chart1', traces1, layout1);
+
+        // Data from the second HTML file (threshold.html)
+        const countries2 = [
+            "Australia", "Austria", "Belgium", "Canada", "Chile", "Colombia", "Denmark",
+            "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Iceland",
+            "Ireland", "Italy", "Japan", "Korea", "Mexico", "Netherlands", "Norway",
+            "Poland", "Portugal", "Spain", "Sweden"
+        ];
+
+        const data2 = {
+            "2018": [3.1, 2.7, 3.6, 4.7, 6.2, 10.7, 2.5, 1.6, 2.2, 3.8, 3.2, 3.5, 3.3, 1.7, 2.9, 2.8, 1.9, 2.8, 3.2, 2.3, 3.8, 3.3, 5.0, 1.7, 2.7],
+            "2019": [3.3, 2.9, 3.5, 4.4, 6.2, 10.7, 1.9, 1.6, 2.0, 3.8, 3.2, 3.7, 3.6, 1.1, 2.8, 2.4, 1.9, 2.7, 3.4, 2.0, 3.8, 3.8, 5.1, 2.1, 2.6],
+            "2020": [3.2, 3.1, 3.0, 4.5, 5.3, 10.7, 1.9, 1.4, 2.0, 3.6, 3.1, 3.2, 3.4, 2.9, 3.1, 2.2, 1.8, 2.4, 3.5, 2.4, 3.6, 3.2, 4.9, 2.2, 1.9],
+            "2021": [3.3, 2.7, null, 4.3, 5.3, null, 1.9, 2.2, 1.6, 3.7, 3.0, 3.5, 3.3, 3.3, 3.3, 2.1, 1.7, null, 2.7, 2.6, 3.8, null, 4.0, 1.9, null],
+            "2022": [3.2, 2.4, null, 4.7, 5.2, null, null, 2.3, null, 3.9, 3.2, 3.1, 3.6, 2.5, 3.3, null, 1.8, 2.6, 2.4, null, 1.8, 2.5, null, 2.2, 1.7],
+            "2023": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+        };
+
+        const traces2 = Object.keys(data2).map(year => ({
+            x: countries2,
+            y: data2[year],
+            name: year,
+            type: 'bar'
+        }));
+
+        const layout2 = {
+            title: 'OECD Grouped Bar Chart Threshold (2018-2023)',
+            barmode: 'group',
+            xaxis: { title: 'Countries', tickangle: -45, automargin: true },
+            yaxis: { title: 'Values', range: [0, 12] }
+        };
+
+        Plotly.newPlot('chart2', traces2, layout2);
+    </script>
+</body>
+</html>
