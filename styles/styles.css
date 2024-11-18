@@ -1,1 +1,52 @@
 /* style.css */
+.section-container {
+    margin-bottom: 100px; /* Spacing between sections */
+    height: 100vh; /* Each section takes full screen height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.large-paragraph {
+    font-size: 1.5rem; /* Larger font size for emphasis */
+    line-height: 1.8; /* Increased line height for better readability */
+    max-width: 800px; /* Restrict width for easy reading */
+    margin: 0 auto; /* Center the paragraph horizontally */
+    text-align: center; /* Center text for a focused look */
+}
+
+.display-4 {
+    font-size: 2.5rem; /* Larger headings for more impact */
+    text-align: center; /* Center the headings */
+    margin-bottom: 20px;
+}
+
+.text-secondary {
+    font-size: 2.5rem; /* Larger font size for prominence */
+}
+
+.aos-init {
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+/* Additional styles to animate elements */
+[data-aos="fade-right"] {
+    transform: translateX(-50px);
+    opacity: 1;
+}
+
+[data-aos="fade-left"] {
+    transform: translateX(50px);
+    opacity: 1;
+}
+
+[data-aos="fade-up"] {
+    transform: translateY(50px);
+    opacity: 1;
+}
+
+[data-aos="fade-down"] {
+    transform: translateY(-50px);
+    opacity: 1;
+}

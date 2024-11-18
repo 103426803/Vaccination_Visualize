@@ -1,28 +1,3 @@
-// Function to update graphs based on dropdown selection
-function updateGraph() {
-    const selectedGroup = document.getElementById("data-select").value;
-
-    // Hide all graph sections initially
-    document.querySelectorAll(".graph-section").forEach(graph => {
-        graph.style.display = "none";
-    });
-
-    // Show the appropriate graph and draw the chart based on selected dropdown
-    if (selectedGroup === "group1") {
-        document.getElementById("vaccination-chart").style.display = "block";
-        drawVaccinationChart("MR_DPT4"); // Pass group1 data keys for visualization
-    } else if (selectedGroup === "group2") {
-        document.getElementById("vaccination-chart").style.display = "block";
-        drawVaccinationChart("JE_1_2"); // Pass group2 data keys
-    } else if (selectedGroup === "group3") {
-        document.getElementById("vaccination-chart").style.display = "block";
-        drawVaccinationChart("JE_3"); // Pass group3 data keys
-    } else if (selectedGroup === "group4") {
-        document.getElementById("vaccination-chart").style.display = "block";
-        drawVaccinationChart("Reactions"); // Pass group4 data keys
-    }
-}
-
 // Function to draw the vaccination chart based on selected data group
 function drawVaccinationChart(group) {
     // Set up margin and dimensions
@@ -104,10 +79,29 @@ function drawVaccinationChart(group) {
             .data(d => keys.map(key => ({ key, value: d[key] })))
             .join("rect")
             .attr("x", d => x1(d.key))
-            .attr("y", d => y(d.value))
+            .attr("y", height)
             .attr("width", x1.bandwidth())
-            .attr("height", d => height - y(d.value))
-            .attr("fill", d => color(d.key));
+            .attr("height", 0)
+            .attr("fill", d => color(d.key))
+            .transition()
+            .duration(800)
+            .attr("y", d => y(d.value))
+            .attr("height", d => height - y(d.value));
+
+        svg.append("g")
+            .selectAll("g")
+            .data(cityData)
+            .join("g")
+            .attr("transform", d => `translate(${x0(d.city)},0)`)
+            .selectAll("text")
+            .data(d => keys.map(key => ({ key, value: d[key] })))
+            .join("text")
+            .attr("x", d => x1(d.key) + x1.bandwidth() / 2)
+            .attr("y", d => y(d.value) - 5) // Position slightly above the bar
+            .attr("text-anchor", "middle")
+            .text(d => d.value)
+            .style("font-size", "12px")
+            .style("fill", "black");
 
         // Add x-axis
         svg.append("g")
