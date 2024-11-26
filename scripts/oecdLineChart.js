@@ -63,14 +63,12 @@ function drawOECDLineChart(csvPath, selectedRegions) {
             };
         });
 
-        // Scales
         const x = d3.scalePoint().domain(years).range([0, width]);
         const y = d3.scaleLinear()
             .domain([0, d3.max(regionAverages, d => d3.max(d.averages))])
             .nice()
             .range([height, 0]);
 
-        // Axes
         svg.append("g")
             .attr("transform", `translate(0, ${height})`)
             .call(d3.axisBottom(x));
@@ -78,7 +76,6 @@ function drawOECDLineChart(csvPath, selectedRegions) {
         svg.append("g")
             .call(d3.axisLeft(y));
 
-        // Lines and circles
         const color = d3.scaleOrdinal()
                         .domain(selectedRegions)
                         .range(["#c10077", "#fa9a00", "#00c871", "#001837", "#da0a12", "#009ade"]);
@@ -89,16 +86,24 @@ function drawOECDLineChart(csvPath, selectedRegions) {
                 average: regionData.averages[i]
             }));
 
-            // Draw line
-            svg.append("path")
-                .datum(lineData)
-                .attr("fill", "none")
-                .attr("stroke", color(regionData.region))
-                .attr("stroke-width", 2)
-                .attr("d", d3.line()
-                    .x(d => x(d.year))
-                    .y(d => y(d.average))
-                );
+            const path = svg.append("path")
+                        .datum(lineData)
+                        .attr("fill", "none")
+                        .attr("stroke", color(regionData.region))
+                        .attr("stroke-width", 2)
+                        .attr("d", d3.line()
+                            .x(d => x(d.year))
+                            .y(d => y(d.average))
+                        );
+
+            const totalLength = path.node().getTotalLength();
+            
+            path.attr("stroke-dasharray", `${totalLength} ${totalLength}`) 
+                .attr("stroke-dashoffset", totalLength) 
+                .transition() 
+                .duration(1000) 
+                .ease(d3.easeLinear) 
+                .attr("stroke-dashoffset", 0);
 
             // Add circles for each point
             const circles = svg.selectAll(`.circle-${index}`)
@@ -110,8 +115,7 @@ function drawOECDLineChart(csvPath, selectedRegions) {
                 .attr("r", 5)
                 .attr("fill", color(regionData.region));
 
-            // Add text next to each circle (show average value)
-            circles.append("title") // Optional: adds a tooltip-like label on hover
+            circles.append("title") 
                 .text(d => `Year: ${d.year}\nAverage: ${d.average.toFixed(2)}`);
 
             // Add text directly on the chart
@@ -119,11 +123,11 @@ function drawOECDLineChart(csvPath, selectedRegions) {
                 .data(lineData)
                 .enter()
                 .append("text")
-                .attr("x", d => x(d.year)) // Position slightly to the right of the dot
-                .attr("y", d => y(d.average) - 10) // Position slightly below the dot
+                .attr("x", d => x(d.year)) 
+                .attr("y", d => y(d.average) - 10) 
                 .style("font-size", "12px")
                 .style("fill", "black")
-                .text(d => d.average.toFixed(2)); // Display the average value as text
+                .text(d => d.average.toFixed(2)); 
         });
 
         // Add legend
